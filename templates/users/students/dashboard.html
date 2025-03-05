@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block title %} {{ fullname }}{% endblock %}
+
+{% block navcontents %}
+        <a href="#profile"><i class="fa fa-user"></i> Profile</a>
+        <a href="#courses"><i class="fa fa-book"></i> Courses</a>
+
+        
+             
+{% endblock %}
+
+{% block content %}
+<section>
+
+    <div class="landing-container">
+        <h1 class="landing-title">Welcome back {{ first_name }}</h1>
+        <p class="landing-description">
+        Here you can view your courses, view your grades, and see your profile. Use the navigation menu to access different sections of the system.
+        </p>
+    </div>
+</secton>
+
+
+    <section id="profile">
+            <h2></h2>
+            <div class="profile">
+                <div class="profile-picture">
+                    <h2>Student: {{ fullname }}</h2>
+                    <img src="{{ profile_pic.url }}" alt="{{ fullname }} Profile Picture"> 
+                </div>
+                <div class="info">
+                    <div class="input-group">
+                        <span>USERNAME:</span>
+                        <input type="password" value="{{ username }}" id="password" readonly>
+                        <span class="toggle-password" onclick="togglePassword()">&#128065;</span>
+                    </div>
+                    <input type="text" value="GENDER: {{ gender|capfirst }}" readonly>
+                    <input type="text" value="LEVEL: {{ level }}" readonly>
+                    <input type="text" value="DEPT: {{ Department|capfirst }}" readonly>
+                    <input type="text" value="MAT NO: {{ registration_number }}" readonly>
+                </div>
+            </div>
+
+
+    </section>
+    <section id="courses">
+        <div class="courses">
+            <h2>Your Courses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Courses</th>
+                        <th>Course Code</th>
+                        <th>Test (40)</th>
+                        <th>Exam (60)</th>
+                        <th>Total (100)</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if courses %}
+                        {% for course in courses %}
+                            <tr>
+                                <td>{{ course.title }}</td>
+                                <td>{{ course.code }}</td>
+                                <td>{{ course.test }}</td>
+                                <td>{{ course.exam }}</td>
+                                <td>{{ course.total }}</td>
+                                <td>{% if course.total >= 70 %}A{% elif course.total >= 65 %}B{% elif course.total >= 60 %}C{% elif course.total >= 55 %}D{% elif course.total >= 40 %}E{% else %}F{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No courses available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>   
+        </div>
+    </section>
+    </section>
+{% endblock %}
+
+
+{% block extra_script %}
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+        
+    </script>
+{% endblock %}

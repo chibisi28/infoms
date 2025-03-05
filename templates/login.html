@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <section> 
+        <div class="landing-container">
+            <div class="form-box">
+                <h2>Login</h2>
+                <form method="POST" >
+                    {% csrf_token %}
+
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"> 
+                    {% endif %}
+                    <div class="input-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your Username" required>
+                    
+                    </div>
+                    <p style="color : white ">{% if error %} {{  error }} {% else %}  {% endif %} </p>
+                    <br>
+                    <button class="login-btn" type="submit">Login</button>
+                </form>
+                </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_script %}
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            var username = document.getElementById("username").value;
+            if (username.trim() === "") {
+                event.preventDefault();
+                alert("Please enter a username.");
+            }
+        });
+    </script>
+{% endblock %}

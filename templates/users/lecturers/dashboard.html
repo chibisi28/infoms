@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block title %}Landing Page{% endblock %}
+
+{% block navcontents %}
+        <a href="#profile"><i class="fa fa-user"></i> Profile</a>
+        <a href="#courses"><i class="fa fa-book"></i> Courses</a>
+        <a href="#courses"><i class="fa fa-plus"></i> Add Grades</a>
+ 
+
+ 
+{% endblock %}
+
+
+{% block content %}
+<section>
+
+    <div class="landing-container">
+        <h1 class="landing-title">Welcome back {% if gender == 'Male' %}Mr.{% else %}Ms{% endif %} {{ first_name }}</h1>
+        <p class="landing-description">
+        Here you can View your courses, Manage your students grades, and see your profile. Use the navigation menu to access different sections of the system.
+        </p>
+    </div>
+</section>
+
+
+    <section id="profile">
+            <h2></h2>
+            <div class="profile">
+                <div class="profile-picture">
+                    <h2>Lecturer: {% if gender == 'Male' %}Mr{% else %}Miss{% endif %}. {{ fullname }}</h2>
+                    <img src="{{ profile_pic.url }}" alt="{{ fullname }} Profile Picture"> 
+                </div>
+                <div class="info">
+                    <div class="input-group">
+                        <span>USERNAME:</span>
+                        <input type="password" value="{{ username }}" id="password" readonly>
+                        <span class="toggle-password" onclick="togglePassword()">&#128065;</span>
+                    </div>
+                    <input type="text" value="GENDER: {{ gender|capfirst }}" readonly>
+                    <input type="text" value="NO OF COURSES: {{ courses_amount }}" readonly>
+                </div>
+            </div>
+
+
+    </section>
+    <section id="courses">
+        <div class="courses">
+            <h2>Your Courses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Courses</th>
+                        <th>Course Code</th>
+                        <th>Level</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if courses %}
+                        {% for course in courses %}
+                            <tr>
+                                <td>{{ course.title }}</td>
+                                <td>{{ course.code }}</td>
+                                <td>{{ course.level }}</td>
+                                <td><a href="/enrollment/grade/{{course.id}}" class="action-btn">Add grades</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No courses available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>   
+        </div>
+    </section>
+    </section>
+{% endblock %}
+
+
+{% block extra_script %}
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+        
+        }
+    </script>
+{% endblock %}

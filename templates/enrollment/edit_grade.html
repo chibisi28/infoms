@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block title %}
+    {{ code }}
+{% endblock %}
+
+{% block navcontents %}
+        <a href="/users/staff/dashboard"><i class="fa fa-user"></i> Profile</a>
+        <a href="/users/staff/dashboard#courses"><i class="fa fa-book"></i> Courses</a>
+        <a href="/users/staff/dashboard#courses"><i class="fa fa-plus"></i> Add Grades</a>
+ 
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div>
+            <form class="form-edit" method="POST" action="/enrollment/save_grade/{{context.id}}"> 
+                {% csrf_token %}
+            
+
+
+                <div style="display:flex;"><input  readonly type='text'  value="Student Name" style="width: 40%;"> <input style="width: 60%; margin-left: 20px;height: auto;" type="text" readonly name="test" value="{{ context.name }}" required></div>
+                <div style="display:flex;"><input  readonly type='text'  value="Matriculation Number" style="width: 40%;"> <input style="width: 60%; margin-left: 20px;height: auto;" type="text" readonly name="exam" value="{{ context.reg_no }}" required></div>
+                <div style="display:flex;"><input type="text" value="Test" style="width: 40%;"> <input style="width: 60%; margin-left: 20px;height: auto;" type="number" step="any" name="test" value="{{ context.test }}" required></div>
+                <div style="display:flex;"><input type="text" value="Exam" style="width: 40%;"> <input style="width: 60%; margin-left: 20px;height: auto;" type="number" step="any" name="exam" value="{{ context.exam }}" required></div>
+                
+            
+                           
+                <button type="submit"  style="width : 30% ;padding : 10px ; margin : 20px auto;border : 1px solid #ccc ; border-radius : 5px" >Save</button>
+
+                {% if messages %}
+                
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+            {% endif %}
+            </form>
+            
+            <!-- Display Messages -->
+            
+            
+                        
+        </div>
+    </section>
+{% endblock %}

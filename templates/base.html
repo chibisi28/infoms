@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    {% block extra_css %}
+
+    {% endblock  %} 
+    <title>
+        {% block title %}
+           Information Management Systen
+        {% endblock  %} 
+    </title>
+</head>
+<body>
+
+
+    <!-- Header -->
+    <header>
+        <div class="header">ESCT INFORMATION MANAGEMENT SYSTEM</div>
+        <nav class="navbar">
+            <a href="/" class="logo">ESCT Logo</a>
+            <div class="nav-links">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'users:login' %}?type=staff"><button class="landing-button">Staff Login</button></a>
+                    <a href="{% url 'users:login' %}?type=student"><button class="landing-button">Student Login</button></a>
+                {% else %}
+                    {% block navcontents %}
+                    {% endblock %}
+                    <form class="log-out" action="{% url 'users:log_out' %}" method="post">
+                        {% csrf_token %}
+                        <button aria-label="Logout" title="Logout" > Logout <i class="fa fa-sign-out"></i></button>
+                    </form>
+                {% endif %}
+                
+            </div>
+           
+            <button class="menu-toggle" onclick="toggleMenu()">|||</button>
+        </nav>
+    </header>
+
+    <main class="container">
+            {% block content %}
+
+
+            {% endblock  %}
+    </main>
+    
+
+
+    <!-- Footer -->
+    <footer >
+        <p>&copy; 2024 ESCT IMS. All rights reserved.</p>
+    </footer>
+
+    
+    <script>
+        function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("active");
+        }
+    </script>
+    {% block extra_script %}
+
+ {% endblock  %} 
+</body>
+
+
+</html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock%}
+{% block title %}
+    {{ code }}
+{% endblock%}
+
+{% block navcontents %}
+        <a href="/users/staff/dashboard"><i class="fa fa-user"></i> Profile</a>
+        <a href="/users/staff/dashboard#courses"><i class="fa fa-book"></i> Courses</a>
+        <a href="/users/staff/dashboard#courses"><i class="fa fa-plus"></i> Add Grades</a>
+ 
+ 
+{% endblock %}
+
+{% block content %}
+    <section id="courses">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Reg Number</th>
+                        <th>Test</th>
+                        <th>Exam</th>
+                        <th>Total</th>
+                        <th>Grade</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if student_list %}
+                        {% for student in student_list %}
+                            <tr>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.reg_no }}</td>
+                                <td><input style="width: 100px" type="number" readonly value={{ student.test }}></td>
+                                <td><input style="width: 100px" type="number" readonly value={{ student.exam }}></td>
+                                <td>{{  student.total }}</td>
+                                <td>{% if student.total >= 70 %}A{% elif student.total >= 65 %}B{% elif student.total >= 60 %}C{% elif student.total >= 55 %}D{% elif student.total >= 40 %}E{% else %}F{% endif %}</td>
+                                <td><button class="action-btn"><a href="/enrollment/edit_grade/{{student.id}}">Edit</a></button></td>       
+
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No Students available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>        
+        
+            </div >
+        </section >
+{% endblock %}
+

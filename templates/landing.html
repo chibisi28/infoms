@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <style>
+        .landing-container {
+            text-align: center;
+            padding: 50px;
+            height: 75vh;display: flex; justify-content: center; align-items: center;flex-direction: column;
+        }
+        .landing-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .landing-description {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .landing-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #1E3A66;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .landing-button:hover {
+            background-color:rgb(36, 72, 129);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="landing-container">
+        <h1 class="landing-title">Welcome to InfoLMS</h1>
+        <p class="landing-description">Your one-stop solution for managing information and learning resources.</p>
+        <div> 
+            {% if not user.is_authenticated %}
+                    <a href="{% url 'users:login' %}?type=staff"><button class="landing-button">Staff Login</button></a>
+                    <a href="{% url 'users:login' %}?type=student"><button class="landing-button">Student Login</button></a>
+                {% else %}
+                 {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"> 
+                    {% endif %}
+                    <a href="/users/staff/dashboard"><button class="landing-button">Staff Dashboard</button></a>
+                    <a href="{% url 'users:student_dashboard' %}"><button class="landing-button">Student Dashboard</button></a>
+                {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script>
+        // Add any additional JavaScript here if needed
+    </script>
+{% endblock %}
