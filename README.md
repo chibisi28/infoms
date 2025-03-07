@@ -1,3 +1,1 @@
-# TrialOne
-
-A new Django project. --> TrialOne
+# Information Management System 
